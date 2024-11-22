@@ -3,8 +3,8 @@ How to Download and Install the APK
 1. Download the APK
 
 	•	Click here to download the APK file.
-(Replace https://example.com/your-apk-file.apk with the actual link to your APK, e.g., a Google Drive, Dropbox, or GitHub Releases link.)
-2. Enable Installation from Unknown Sources
+( GitHub Release link https://github.com/AbhishekVabilisetty/Automatic_bing_search_rewards/releases/tag/v1.0.0 .)
+3. Enable Installation from Unknown Sources
 
 If this is your first time installing an app outside the Google Play Store:
 	1.	Open your device’s Settings.
