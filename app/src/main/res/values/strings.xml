@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Rewards</string>
+    <string name="start">Start</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="home">HomeButton</string>
+    <string name="searchcount" translatable="false">Search Count?</string>
+    <string name="defaultvalue">30</string>
+
+</resources>
