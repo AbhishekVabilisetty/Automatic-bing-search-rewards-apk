@@ -11,6 +11,7 @@ If this is your first time installing an app outside the Google Play Store:
 	2.	Go to Security (or Privacy, depending on your device).
 	3.	Enable Install apps from unknown sources.
 	•	On newer Android versions: Go to Settings > Apps > Special App Access > Install Unknown Apps and enable this option for your browser or file manager.
+
 3. Install the APK
 
 	1.	Locate the downloaded APK file on your device:
