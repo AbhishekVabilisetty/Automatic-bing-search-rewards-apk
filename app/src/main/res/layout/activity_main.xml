@@ -42,23 +42,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/webView" />
 
-    <ImageView
-        android:id="@+id/home"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="39dp"
-        android:contentDescription="@string/home"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/signOutButton"
-        app:layout_constraintTop_toBottomOf="@+id/webView"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/img" />
-
     <EditText
         android:id="@+id/editTextText1"
-        android:layout_width="130dp"
+        android:layout_width="70dp"
         android:layout_height="48dp"
+        android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
         android:ems="10"
         android:hint="@string/searchcount"
@@ -66,7 +54,31 @@
         android:text="@string/defaultvalue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/loadQueriesButton"
-        app:layout_constraintHorizontal_bias="0.56"
-        app:layout_constraintStart_toEndOf="@+id/home" />
+        app:layout_constraintStart_toEndOf="@+id/imageButton" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/desktopweb"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/home"
+        app:layout_constraintTop_toBottomOf="@+id/webView"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/baseline_desktop_windows_24" />
+
+    <ImageButton
+        android:id="@+id/home"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/signOutButton"
+        app:layout_constraintTop_toBottomOf="@+id/webView"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/baseline_home_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
