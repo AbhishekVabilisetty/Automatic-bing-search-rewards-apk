@@ -3,7 +3,7 @@
     <string name="start">Start</string>
     <string name="sign_out">Sign Out</string>
     <string name="home">HomeButton</string>
-    <string name="searchcount" translatable="false">Search Count?</string>
+    <string name="searchcount">Search Count?</string>
     <string name="defaultvalue">25</string>
     <string name="desktopweb">Desktopweb</string>
 
