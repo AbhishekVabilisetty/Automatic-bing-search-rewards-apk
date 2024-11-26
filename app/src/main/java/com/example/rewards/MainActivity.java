@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadQueries() {
-
         try {
             count=Integer.parseInt(searchCount.getText().toString());
             if(!isLoadingQueries){
@@ -99,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
             if(isDesktop) {
                 CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
                 customTabsIntent.launchUrl(this, Uri.parse(url));
-            }else {
-                webView.loadUrl(url);
             }
+                webView.loadUrl(url);
+
             queryIndex = (queryIndex + 1) % queryList.length;
             count--;
             if(count>0) {
