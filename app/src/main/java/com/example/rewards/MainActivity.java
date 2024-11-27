@@ -98,8 +98,9 @@ public class MainActivity extends AppCompatActivity {
             if(isDesktop) {
                 CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
                 customTabsIntent.launchUrl(this, Uri.parse(url));
-            }
+            }else {
                 webView.loadUrl(url);
+            }
 
             queryIndex = (queryIndex + 1) % queryList.length;
             count--;
