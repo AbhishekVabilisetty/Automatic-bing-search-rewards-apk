@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <permission android:name="com.example.rewards.DYNAMIC_RECEIVER_PERMISSION" android:protectionLevel="signature" />
 
     <application
         android:allowBackup="true"
@@ -14,15 +17,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Rewards"
         tools:targetApi="31">
+        <service
+            android:name=".LoadQueriesWorker"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="androidx.work.WorkManagerInitializer"
+            android:value="androidx.startup" />
     </application>
 
 </manifest>

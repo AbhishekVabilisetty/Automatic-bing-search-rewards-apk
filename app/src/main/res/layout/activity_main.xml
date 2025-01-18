@@ -7,47 +7,45 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
+    <!-- WebView occupying the upper part of the screen -->
     <WebView
         android:id="@+id/webView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextText1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </WebView>
-
+    <!-- Sign-out Button placed at the bottom-left corner -->
     <Button
         android:id="@+id/signOutButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="@string/sign_out"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/webView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- Load Queries Button placed at the bottom-right corner -->
     <Button
         android:id="@+id/loadQueriesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/start"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/webView" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- EditText positioned near the bottom-left for search input -->
     <EditText
         android:id="@+id/editTextText1"
-        android:layout_width="70dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="@string/searchcount"
         android:inputType="text"
@@ -56,29 +54,30 @@
         app:layout_constraintEnd_toStartOf="@+id/loadQueriesButton"
         app:layout_constraintStart_toEndOf="@+id/imageButton" />
 
+    <!-- Image Button for desktop view toggle -->
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="48dp"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
         android:contentDescription="@string/desktopweb"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/home"
         app:layout_constraintTop_toBottomOf="@+id/webView"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.5"
         app:srcCompat="@drawable/baseline_desktop_windows_24" />
 
+    <!-- Image Button for home navigation -->
     <ImageButton
         android:id="@+id/home"
         android:layout_width="48dp"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/home"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/signOutButton"
         app:layout_constraintTop_toBottomOf="@+id/webView"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.5"
         app:srcCompat="@drawable/baseline_home_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

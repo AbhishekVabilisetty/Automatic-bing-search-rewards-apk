@@ -1,6 +1,11 @@
 package com.example.rewards;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,17 +19,24 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
-
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String CHANNEL_ID2 = "load_queries_channel";
+    private static final int NOTIFICATION_ID = 1;
     private boolean isLoadingQueries=false;
     private boolean isDesktop=false;
     private WebView webView;
-    private Button loadQueriesButton;
+    public Button loadQueriesButton;
     private ImageButton imageButton;
     private Button signOutButton;
     private int count;
@@ -33,51 +45,64 @@ public class MainActivity extends AppCompatActivity {
     private String[] queryList;
     private int queryIndex = 0;
     private Handler handler = new Handler();
-
-
+    public static MainActivity instance;
+    public static MainActivity getInstance() {
+        return instance;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         homeButton =findViewById(R.id.home);
-        homeButton.setOnClickListener(v -> goHome());
         searchCount=findViewById(R.id.editTextText1);
-
-
         loadQueriesButton = findViewById(R.id.loadQueriesButton);
         signOutButton = findViewById(R.id.signOutButton);
-        signOutButton.setOnClickListener(v -> signOut());
         imageButton=findViewById(R.id.imageButton);
-        imageButton.setOnClickListener(v -> openBingInDesktopMode());
-        // Configure WebView settings
         webView = findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("https://www.bing.com");
-
-
-        // Load queries when button is clicked
+        homeButton.setOnClickListener(v -> goHome());
+        signOutButton.setOnClickListener(v -> signOut());
+        imageButton.setOnClickListener(v -> openBingInDesktopMode());
         loadQueriesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadQueries();
             }
         });
+        if (ContextCompat.checkSelfPermission(this, "com.example.rewards.DYNAMIC_RECEIVER_PERMISSION") != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{"com.example.rewards.DYNAMIC_RECEIVER_PERMISSION"}, 1);
+        }
+    }
+    public void alarm(){
+        instance=this;
+        PeriodicWorkRequest loadQueriesWorkRequest =
+                new PeriodicWorkRequest.Builder(LoadQueriesWorker.class, 12, TimeUnit.HOURS)
+                        .build();
+        WorkManager.getInstance(this).enqueue(loadQueriesWorkRequest);
+//          ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+//        scheduler.scheduleWithFixedDelay(new Runnable() {
+//            @Override
+//            public void run() {
+//                runOnUiThread(() -> loadQueriesButton.performClick());
+//            }
+//        }, 0, 24, TimeUnit.HOURS);
     }
 
-    private void loadQueries() {
+    public void loadQueries() {
         try {
             count=Integer.parseInt(searchCount.getText().toString());
             if(!isLoadingQueries){
                 isLoadingQueries=true;
             }
-            // Read the queries from the query.txt file in the assets folder
             InputStream inputStream = getAssets().open("query.txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line = reader.readLine();
             if (line != null) {
                 queryList = line.replace(" ", "+").split(",");
+                sendNotification("Queries Started Loading", "queries Loading Has Started Successfully.");
                 loadNextQuery();
                 count++;
             } else {
@@ -90,38 +115,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadNextQuery() {
-        if (  queryList != null  && isLoadingQueries) {
-
+        if (queryList != null && isLoadingQueries) {
             String query = queryList[queryIndex];
             String url = "https://www.bing.com/search?q=" + query + "&PC=U316&FORM=CHROMN#";
-            // Load the next query after a delay
-            if(isDesktop) {
+            if (isDesktop) {
                 CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
                 customTabsIntent.launchUrl(this, Uri.parse(url));
-            }else {
+            } else {
                 webView.loadUrl(url);
             }
-
             queryIndex = (queryIndex + 1) % queryList.length;
             count--;
-            if(count>0) {
-                // Load the next query after a delay
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadNextQuery();
-                    }
-                }, 7000);
-            }else {
+            if (count > 0) {
+                handler.postDelayed(() -> loadNextQuery(), 7000);
+            } else {
                 isLoadingQueries = false;
+                sendNotification("Queries Completed", "All queries have been loaded successfully.");
                 goHome();
             }
         } else {
-            isLoadingQueries=false;
+            isLoadingQueries = false;
             goHome();
             Toast.makeText(this, "All queries loaded or stopped.", Toast.LENGTH_SHORT).show();
         }
-
     }
     private void openBingInDesktopMode(){
         if(!isDesktop){
@@ -143,16 +159,10 @@ public class MainActivity extends AppCompatActivity {
         cookieManager.removeAllCookies(null);
         cookieManager.flush();
         isLoadingQueries=false;
-        // Clear cache and history
         webView.clearCache(true);
         webView.clearHistory();
-
-        // Optionally clear form data
         webView.clearFormData();
-
-        // Navigate to the sign-in page or a desired URL
         webView.loadUrl("https://www.bing.com");
-
         Toast.makeText(this, "Signed out successfully", Toast.LENGTH_SHORT).show();
     }
     @Override
@@ -166,8 +176,32 @@ public class MainActivity extends AppCompatActivity {
             }
                 webView.goBack();
         } else {
-            // Close the activity if there's no history
             super.onBackPressed();
+        }
+    }
+    private void sendNotification(String title, String message) {
+        Context context = getApplicationContext();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID2,
+                    "Load Queries Notifications",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel.setDescription("Notifications for loading queries");
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID2)
+                .setSmallIcon(R.drawable.baseline_notifications_active_24) // Replace with your app's icon
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            notificationManager.notify(NOTIFICATION_ID, builder.build());
         }
     }
 }
