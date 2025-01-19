@@ -3,7 +3,7 @@ How to Download and Install the APK
 1. Download the APK
 
 	•	Click here to download the APK file.
-( GitHub Release link https://github.com/AbhishekVabilisetty/Automatic_bing_search_rewards/releases/tag/v1.0.0 .)
+( GitHub Release link https://github.com/AbhishekVabilisetty/Automatic_bing_search_rewards/releases/tag/v1.1 .)
 download app_debud.apk
 3. Enable Installation from Unknown Sources
 
