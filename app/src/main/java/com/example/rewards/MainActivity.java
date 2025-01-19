@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean isLoadingQueries=false;
     private boolean isDesktop=false;
     private WebView webView;
-    public Button loadQueriesButton;
+    public ImageButton loadQueriesButton;
     private ImageButton imageButton;
-    private Button signOutButton;
+    private ImageButton signOutButton;
     private int count;
     private ImageButton homeButton;
     private EditText searchCount;

@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Rewards"
+        android:theme="@style/Theme.Material3.DynamicColors.Dark"
         tools:targetApi="31">
         <service
             android:name=".LoadQueriesWorker"
