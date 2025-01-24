@@ -20,6 +20,7 @@ If this is your first time installing an app outside the Google Play Store:
 	2.	Tap the APK file to start the installation process.
 	3.	Follow the on-screen prompts to complete the installation.
 4. Open the App
+![404653647-bc185a2d-4fdc-4fbb-ab85-33afab6ac8e9](https://github.com/user-attachments/assets/33d871c7-6ffe-43d2-bee1-79cec39f4624)
 
 Once the installation is complete:
 	•	Find the app icon on your home screen or app drawer.
